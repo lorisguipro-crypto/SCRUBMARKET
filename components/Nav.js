@@ -4,7 +4,7 @@ export default function Nav() {
   return (
     <header className="nav">
       <div className="container nav-inner">
-        <Link href="/" className="brand">MedOccaz</Link>
+        <Link href="/" className="brand">ScrubMarket</Link>
         <nav className="nav-links">
           <Link href="/annonces">Parcourir</Link>
           <Link href="/comment-ca-marche">Comment ça marche</Link>

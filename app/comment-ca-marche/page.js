@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export const metadata = { title: "Comment ça marche — MedOccaz" };
+export const metadata = { title: "Comment ça marche — ScrubMarket" };
 
 export default function CommentCaMarche() {
   return (
@@ -8,7 +8,7 @@ export default function CommentCaMarche() {
       <p className="eyebrow" style={{ color: 'var(--primary-dark)' }}>Comment ça marche</p>
       <h1>Une place de marché entre professionnels de santé</h1>
       <p className="muted">
-        {"MedOccaz met en relation des professionnels de santé pour l'achat et la vente de matériel médical d'occasion réutilisable. La plateforme n'intervient pas dans la transaction : elle héberge les annonces et vous met en relation."}
+        {"ScrubMarket met en relation des professionnels de santé pour l'achat et la vente de matériel médical d'occasion réutilisable. La plateforme n'intervient pas dans la transaction : elle héberge les annonces et vous met en relation."}
       </p>
 
       <h2>Pour vendre</h2>
@@ -35,7 +35,7 @@ export default function CommentCaMarche() {
 
       <h2>Le rôle de la plateforme</h2>
       <p>
-        {"MedOccaz est un intermédiaire technique. Le contrat de vente est conclu directement entre le vendeur et l'acheteur ; la plateforme n'est pas partie à la vente et ne garantit pas les dispositifs. Chaque vendeur déclare la conformité de son matériel."}
+        {"ScrubMarket est un intermédiaire technique. Le contrat de vente est conclu directement entre le vendeur et l'acheteur ; la plateforme n'est pas partie à la vente et ne garantit pas les dispositifs. Chaque vendeur déclare la conformité de son matériel."}
       </p>
 
       <div className="cta">

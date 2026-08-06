@@ -1,4 +1,4 @@
-# MedOccaz — MVP marketplace de matériel médical d'occasion
+# ScrubMarket — MVP marketplace de matériel médical d'occasion
 
 Un squelette **Next.js + Supabase** pour tester la demande d'une place de marché
 de matériel médical d'occasion entre professionnels (« le Leboncoin du médical »).
@@ -107,4 +107,4 @@ Les demandes acheteurs et les emails collectés ne sont pas visibles sur le site
 
 ---
 
-*Nom « MedOccaz » = placeholder. Marque à déposer avant de communiquer.*
+*Marque « ScrubMarket » — à vérifier (domaine + INPI/EUIPO) avant communication publique.*

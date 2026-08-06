@@ -1,4 +1,4 @@
-export const metadata = { title: "Mentions légales & CGU — MedOccaz" };
+export const metadata = { title: "Mentions légales & CGU — ScrubMarket" };
 
 export default function MentionsLegales() {
   return (
