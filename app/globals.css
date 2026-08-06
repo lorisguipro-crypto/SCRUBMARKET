@@ -41,6 +41,7 @@ h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; }
 .nav-links a { color: var(--muted); font-size: 15px; font-weight: 500; }
 .nav-links a:hover { color: var(--ink); }
 .nav-links a.btn-primary, .nav-links a.btn-primary:hover { color: #fff; }
+.lbl-short { display: none; }
 
 /* Buttons */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 46px; padding: 0 22px; border-radius: var(--radius); font-size: 15px; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: transform .05s ease, background .15s ease, border-color .15s ease; }
@@ -153,10 +154,46 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--p
 .back { color: var(--muted); font-size: 14px; display: inline-block; margin: 8px 0 40px; }
 
 @media (max-width: 760px) {
-  .hero-content { padding: 52px 26px; }
-  .hero h1 { font-size: 34px; }
+  .nav-inner { height: 60px; }
+  .brand { font-size: 18px; }
+  .nav-links { gap: 12px; }
+  .nav-links a { font-size: 14px; }
+  .comment-link { display: none; }
+  .btn { height: 42px; padding: 0 16px; font-size: 14px; }
+  .lbl-full { display: none; }
+  .lbl-short { display: inline; }
+
+  .hero-content { padding: 46px 22px; }
+  .hero h1 { font-size: 30px; }
+  .hero-lead { font-size: 16px; margin-bottom: 24px; }
+  .section-title { font-size: 21px; }
   .showcase { grid-template-columns: 1fr; }
+  .showcase-text h2 { font-size: 23px; }
   .detail { grid-template-columns: 1fr; }
+  .cats { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .cat-card { padding: 16px; }
+  .cat-name { font-size: 16px; }
+  .signup { padding: 30px 22px; }
+  .signup h2 { font-size: 22px; }
+  .page-head h1 { font-size: 26px; }
+}
+
+@media (max-width: 480px) {
+  .hero-content { padding: 34px 18px; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 0.1em; }
+  .hero h1 { font-size: 25px; }
+  .hero-lead { font-size: 15px; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .btn { width: 100%; }
+  .section-title { font-size: 20px; }
+  .cats { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cat-card { padding: 14px; }
+  .cat-name { font-size: 15px; }
+  .signup-form { flex-direction: column; }
+  .signup-form .btn { width: 100%; }
+  .progate-card { padding: 28px 22px; }
+  .progate-card h2 { font-size: 21px; }
+  .footer-inner { flex-direction: column; align-items: flex-start; gap: 10px; }
 }
 
 /* Content pages (comment ça marche, mentions légales) */

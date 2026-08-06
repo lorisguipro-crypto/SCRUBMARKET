@@ -3,11 +3,18 @@ import Link from 'next/link';
 import { Analytics } from '@vercel/analytics/react';
 import Nav from '@/components/Nav';
 import ProGate from '@/components/ProGate';
+import PWARegister from '@/components/PWARegister';
 
 export const metadata = {
   title: "ScrubMarket — matériel médical d'occasion entre professionnels",
   description:
     "La place de marché du matériel médical d'occasion réservée aux professionnels de santé vérifiés.",
+  appleWebApp: { capable: true, title: 'ScrubMarket', statusBarStyle: 'default' },
+  icons: { apple: '/apple-icon.png' },
+};
+
+export const viewport = {
+  themeColor: '#0e5aa7',
 };
 
 export default function RootLayout({ children }) {
@@ -26,6 +33,7 @@ export default function RootLayout({ children }) {
             </span>
           </div>
         </footer>
+        <PWARegister />
         <Analytics />
       </body>
     </html>
