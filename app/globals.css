@@ -174,3 +174,11 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--p
 .footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; }
 .footer-links { display: flex; gap: 18px; }
 .footer-links a:hover { color: var(--ink); }
+
+/* Portillon professionnel (voile flouté) */
+.progate { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(8,28,54,.55); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.progate-card { background: var(--surface); border-radius: 16px; padding: 36px 32px; max-width: 440px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.28); }
+.progate-badge { width: 48px; height: 48px; border-radius: 12px; background: var(--primary); color: #fff; font-family: var(--font-display); font-weight: 800; font-size: 30px; line-height: 48px; margin: 0 auto 16px; }
+.progate-card h2 { font-size: 24px; margin: 0 0 10px; }
+.progate-card p { color: var(--muted); font-size: 15px; margin: 0 0 22px; }
+.progate-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }

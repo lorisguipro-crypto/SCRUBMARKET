@@ -2,6 +2,7 @@ import './globals.css';
 import Link from 'next/link';
 import { Analytics } from '@vercel/analytics/react';
 import Nav from '@/components/Nav';
+import ProGate from '@/components/ProGate';
 
 export const metadata = {
   title: "ScrubMarket — matériel médical d'occasion entre professionnels",
@@ -13,6 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fr">
       <body>
+        <ProGate />
         <Nav />
         <main className="container">{children}</main>
         <footer className="footer container">
