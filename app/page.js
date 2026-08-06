@@ -30,7 +30,7 @@ export default function Home() {
       <section className="hero">
         <div className="hero-content">
           <p className="hero-eyebrow">Réservé aux professionnels de santé</p>
-          <h1>{"Le matériel médical d'occasion, entre praticiens de confiance."}</h1>
+          <h1>{"Le matériel change de main, pas de niveau."}</h1>
           <p className="hero-lead">
             {"Blocs, cabinets, imagerie, endoscopie : achetez et vendez de l'équipement réutilisable directement entre professionnels vérifiés, sans intermédiaire."}
           </p>

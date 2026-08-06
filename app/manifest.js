@@ -6,8 +6,8 @@ export default function manifest() {
       "La place de marché du matériel médical d'occasion réservée aux professionnels de santé.",
     start_url: '/',
     display: 'standalone',
-    background_color: '#08376a',
-    theme_color: '#0e5aa7',
+    background_color: '#f2f1ed',
+    theme_color: '#2c3432',
     icons: [
       { src: '/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
       { src: '/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
