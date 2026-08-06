@@ -1,4 +1,6 @@
 import './globals.css';
+import Link from 'next/link';
+import { Analytics } from '@vercel/analytics/react';
 import Nav from '@/components/Nav';
 
 export const metadata = {
@@ -14,9 +16,15 @@ export default function RootLayout({ children }) {
         <Nav />
         <main className="container">{children}</main>
         <footer className="footer container">
-          MedOccaz · MVP de test — réservé aux professionnels de santé.
-          Nom et marque provisoires.
+          <div className="footer-inner">
+            <span>MedOccaz · réservé aux professionnels de santé.</span>
+            <span className="footer-links">
+              <Link href="/comment-ca-marche">Comment ça marche</Link>
+              <Link href="/mentions-legales">Mentions légales &amp; CGU</Link>
+            </span>
+          </div>
         </footer>
+        <Analytics />
       </body>
     </html>
   );

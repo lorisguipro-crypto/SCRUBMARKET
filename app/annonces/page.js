@@ -9,9 +9,14 @@ export default function AnnoncesPage() {
   const [categories, setCategories] = useState([]);
   const [cat, setCat] = useState('');
   const [maxPrix, setMaxPrix] = useState('');
+  const [q, setQ] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const urlCat = params.get('cat');
+    if (urlCat) setCat(urlCat);
+
     async function load() {
       const [cats, ann] = await Promise.all([
         supabase.from('categories').select('*').order('nom'),
@@ -31,6 +36,10 @@ export default function AnnoncesPage() {
   const filtered = annonces.filter((a) => {
     if (cat && String(a.categorie_id) !== cat) return false;
     if (maxPrix && Number(a.prix) > Number(maxPrix)) return false;
+    if (q) {
+      const hay = `${a.titre || ''} ${a.description || ''}`.toLowerCase();
+      if (!hay.includes(q.toLowerCase())) return false;
+    }
     return true;
   });
 
@@ -41,6 +50,13 @@ export default function AnnoncesPage() {
       </div>
 
       <div className="filters">
+        <input
+          type="search"
+          placeholder="Rechercher (marque, modèle…)"
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          style={{ maxWidth: 280 }}
+        />
         <select value={cat} onChange={(e) => setCat(e.target.value)}>
           <option value="">Toutes les spécialités</option>
           {categories.map((c) => (
@@ -59,7 +75,7 @@ export default function AnnoncesPage() {
         <p className="loading">Chargement…</p>
       ) : filtered.length === 0 ? (
         <div className="empty">
-          Aucune annonce pour l&apos;instant. Soyez le premier à en déposer une.
+          {"Aucune annonce ne correspond. Élargissez votre recherche, ou déposez la première."}
         </div>
       ) : (
         <div className="grid">

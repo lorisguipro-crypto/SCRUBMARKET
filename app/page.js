@@ -52,7 +52,7 @@ export default function Home() {
         <h2 className="section-title">Explorer par spécialité</h2>
         <div className="cats">
           {categories.map((c) => (
-            <Link key={c.id} href="/annonces" className="cat-card">
+            <Link key={c.id} href={`/annonces?cat=${c.id}`} className="cat-card">
               <span className="cat-name">{c.nom}</span>
               <span className="cat-link">Voir les annonces →</span>
             </Link>

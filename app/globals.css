@@ -158,3 +158,19 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--p
   .showcase { grid-template-columns: 1fr; }
   .detail { grid-template-columns: 1fr; }
 }
+
+/* Content pages (comment ça marche, mentions légales) */
+.content { max-width: 760px; margin: 0 auto; padding: 24px 0 48px; }
+.content h1 { font-size: 34px; margin: 6px 0 12px; }
+.content h2 { font-size: 22px; margin: 30px 0 10px; }
+.content p, .content li { color: var(--ink); font-size: 16px; }
+.content .muted { color: var(--muted); }
+.content ul { padding-left: 20px; }
+.content li { margin-bottom: 6px; }
+.content .note { background: var(--primary-soft); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; color: var(--primary-dark); font-size: 15px; margin: 18px 0; }
+.content .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+
+/* Footer layout */
+.footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; }
+.footer-links { display: flex; gap: 18px; }
+.footer-links a:hover { color: var(--ink); }
