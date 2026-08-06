@@ -1,21 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
-
-const CATEGORIES = [
-  'Endoscopie',
-  'Gynécologie',
-  'Urologie',
-  'Imagerie',
-  'Bloc opératoire',
-  'Mobilier & cabinet',
-];
 
 export default function Home() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('idle');
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    supabase
+      .from('categories')
+      .select('*')
+      .order('nom')
+      .then(({ data }) => setCategories(data || []));
+  }, []);
 
   async function subscribe(e) {
     e.preventDefault();
@@ -51,9 +51,9 @@ export default function Home() {
       <section className="home-section">
         <h2 className="section-title">Explorer par spécialité</h2>
         <div className="cats">
-          {CATEGORIES.map((nom) => (
-            <Link key={nom} href="/annonces" className="cat-card">
-              <span className="cat-name">{nom}</span>
+          {categories.map((c) => (
+            <Link key={c.id} href="/annonces" className="cat-card">
+              <span className="cat-name">{c.nom}</span>
               <span className="cat-link">Voir les annonces →</span>
             </Link>
           ))}
