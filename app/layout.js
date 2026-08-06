@@ -1,5 +1,6 @@
 import './globals.css';
 import Nav from '@/components/Nav';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata = {
   title: "MedOccaz — matériel médical d'occasion entre professionnels",
@@ -17,6 +18,7 @@ export default function RootLayout({ children }) {
           MedOccaz · MVP de test — réservé aux professionnels de santé.
           Nom et marque provisoires.
         </footer>
+        <Analytics />
       </body>
     </html>
   );
