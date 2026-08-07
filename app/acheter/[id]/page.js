@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 
-const COMMISSION = 0.05; // 5 % prélevés sur le prix (maquette)
+const COMMISSION = 0.10; // 10 % prélevés sur le prix (maquette)
 
 export default function AcheterPage() {
   const { id } = useParams();
@@ -66,7 +66,7 @@ export default function AcheterPage() {
         <div className="pay-card">
           <div className="pay-row"><span>Matériel</span><strong>{annonce.titre}</strong></div>
           <div className="pay-row"><span>Prix</span><strong>{money(prix)}</strong></div>
-          <div className="pay-row muted"><span>Commission ScrubMarket (5 %)</span><span>− {money(commission)}</span></div>
+          <div className="pay-row muted"><span>Commission ScrubMarket (10 %)</span><span>− {money(commission)}</span></div>
           <div className="pay-row muted"><span>Le vendeur reçoit</span><span>{money(vendeurRecoit)}</span></div>
           <div className="pay-total"><span>Total à payer</span><strong>{money(prix)}</strong></div>
           <button className="btn btn-primary" style={{ width: '100%' }} onClick={() => setStep(2)}>Continuer vers le paiement</button>
