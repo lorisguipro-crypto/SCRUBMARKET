@@ -17,7 +17,7 @@ export default function DeposerPage() {
   const [form, setForm] = useState({
     titre: '', categorie_id: '', type_materiel: '', marque: '', marque_autre: '',
     etat: '', annee_fabrication: '', date_mise_en_service: '', fiche_tracabilite: 'Non',
-    serial_number: '', prix: '', ville: '', description: '',
+    serial_number: '', adresse_enlevement: '', prix: '', ville: '', description: '',
     vendeur_email: '', vendeur_telephone: '', declarations_ok: false,
   });
   const [files, setFiles] = useState([]);
@@ -38,7 +38,7 @@ export default function DeposerPage() {
     setEditId(id);
     (async () => {
       const { data } = await supabase.from('annonces').select('*').eq('id', id).single();
-      const { data: prive } = await supabase.from('annonce_prive').select('serial_number').eq('annonce_id', id).single();
+      const { data: prive } = await supabase.from('annonce_prive').select('serial_number, adresse_enlevement').eq('annonce_id', id).single();
       if (!data) return;
       const marqueConnue = data.marque && MARQUES.includes(data.marque);
       setForm({
@@ -52,6 +52,7 @@ export default function DeposerPage() {
         date_mise_en_service: data.date_mise_en_service || '',
         fiche_tracabilite: data.fiche_tracabilite ? 'Oui' : 'Non',
         serial_number: prive?.serial_number || '',
+        adresse_enlevement: prive?.adresse_enlevement || '',
         prix: data.prix != null ? String(data.prix) : '',
         ville: data.ville || '',
         description: data.description || '',
@@ -124,6 +125,7 @@ export default function DeposerPage() {
         annonce_id: res.data.id,
         user_id: user.id,
         serial_number: form.serial_number || null,
+        adresse_enlevement: form.adresse_enlevement || null,
       });
     } catch (_) {}
 
@@ -235,7 +237,13 @@ export default function DeposerPage() {
         </div>
 
         <div className="field">
-          <label>Ville</label>
+          <label>Adresse d'enlèvement complète</label>
+          <textarea value={form.adresse_enlevement} onChange={(e) => update('adresse_enlevement', e.target.value)} placeholder="12 rue… 69000 Lyon" style={{ minHeight: 60 }} />
+          <p className="hint">🔒 Non affichée publiquement. Sert au transport ; communiquée à l'acheteur au moment de l'enlèvement. Seule la ville ci-dessous reste visible.</p>
+        </div>
+
+        <div className="field">
+          <label>Ville (publique)</label>
           <input value={form.ville} onChange={(e) => update('ville', e.target.value)} placeholder="Lyon" />
         </div>
 
