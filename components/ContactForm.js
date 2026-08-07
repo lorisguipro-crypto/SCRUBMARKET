@@ -20,6 +20,19 @@ export default function ContactForm({ annonceId }) {
       acheteur_email: form.email,
       message: form.message,
     });
+    if (!error) {
+      // Prévenir le vendeur par email (sans bloquer l'affichage : la demande est déjà enregistrée)
+      fetch('/api/notify-contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          annonceId,
+          nom: form.nom,
+          email: form.email,
+          message: form.message,
+        }),
+      }).catch(() => {});
+    }
     setStatus(error ? 'error' : 'done');
   }
 
