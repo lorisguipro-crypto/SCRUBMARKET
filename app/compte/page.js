@@ -83,7 +83,10 @@ export default function ComptePage() {
           <h1>Mon compte</h1>
           <p className="hint">{user.email}</p>
         </div>
-        <button className="btn btn-ghost btn-sm" onClick={logout}>Se déconnecter</button>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <Link href="/facturation" className="btn btn-ghost btn-sm">Facturation</Link>
+          <button className="btn btn-ghost btn-sm" onClick={logout}>Se déconnecter</button>
+        </div>
       </div>
 
       <div className="section-row">
@@ -111,6 +114,7 @@ export default function ComptePage() {
               </div>
               <div className="myad-actions">
                 <Link href={`/deposer?id=${a.id}`} className="btn btn-ghost btn-sm">Modifier</Link>
+                <Link href={`/facture/nouvelle?annonce=${a.id}`} className="btn btn-ghost btn-sm">Facture</Link>
                 {a.statut === 'active' ? (
                   <button className="btn btn-ghost btn-sm" onClick={() => changeStatut(a.id, 'vendue')}>Marquer vendu</button>
                 ) : (
