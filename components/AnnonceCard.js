@@ -8,7 +8,8 @@ export default function AnnonceCard({ annonce }) {
     ? `${Number(annonce.prix).toLocaleString('fr-FR')} €`
     : 'Prix à discuter';
 
-  const meta = [annonce.categories?.nom, annonce.ville].filter(Boolean).join(' · ');
+  const tech = [annonce.marque, annonce.annee_fabrication, annonce.etat].filter(Boolean).join(' · ');
+  const sub = [annonce.categories?.nom, annonce.ville].filter(Boolean).join(' · ');
 
   return (
     <Link href={`/annonces/${annonce.id}`} className="card">
@@ -21,7 +22,8 @@ export default function AnnonceCard({ annonce }) {
       </div>
       <div className="card-body">
         <h3>{annonce.titre}</h3>
-        <p className="card-meta">{meta || '—'}</p>
+        {tech && <p className="card-meta">{tech}</p>}
+        {sub && <p className="card-sub">{sub}</p>}
         <p className="card-price">{prix}</p>
       </div>
     </Link>

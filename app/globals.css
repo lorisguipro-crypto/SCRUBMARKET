@@ -242,3 +242,16 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--p
 .tag-masquee { background: var(--line); color: var(--muted); }
 .btn-ghost.danger { color: var(--accent); }
 .btn-ghost.danger:hover { border-color: var(--accent); }
+
+/* Annonces enrichies — formulaire en 2 colonnes, sous-texte carte, specs */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-row .field { margin-bottom: 18px; }
+.card-sub { font-size: 13px; color: var(--muted); margin: 0 0 8px; }
+.spec { display: grid; gap: 0; margin: 4px 0 22px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.spec-row { display: flex; justify-content: space-between; gap: 16px; padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--surface); }
+.spec-row:last-child { border-bottom: none; }
+.spec-row dt { color: var(--muted); font-size: 13px; }
+.spec-row dd { margin: 0; font-family: var(--font-mono); font-size: 13px; color: var(--ink); text-align: right; }
+@media (max-width: 480px) {
+  .form-row { grid-template-columns: 1fr; gap: 0; }
+}

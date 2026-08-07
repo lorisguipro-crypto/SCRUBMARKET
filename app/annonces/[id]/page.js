@@ -37,7 +37,20 @@ export default function AnnonceDetail() {
     ? `${Number(annonce.prix).toLocaleString('fr-FR')} €`
     : 'Prix à discuter';
   const photos = Array.isArray(annonce.photos) ? annonce.photos : [];
-  const meta = [annonce.categories?.nom, annonce.ville].filter(Boolean).join(' · ');
+  const sub = [annonce.categories?.nom, annonce.ville].filter(Boolean).join(' · ');
+
+  const dateMES = annonce.date_mise_en_service
+    ? new Date(annonce.date_mise_en_service).toLocaleDateString('fr-FR')
+    : null;
+
+  const specs = [
+    ['Marque', annonce.marque],
+    ['Type de matériel', annonce.type_materiel],
+    ['État', annonce.etat],
+    ['Année de fabrication', annonce.annee_fabrication],
+    ['Mise en service', dateMES],
+    ['Fiche de traçabilité', annonce.fiche_tracabilite ? 'Oui' : null],
+  ].filter(([, v]) => v);
 
   return (
     <div>
@@ -46,7 +59,7 @@ export default function AnnonceDetail() {
           {photos.length ? (
             photos.map((src, i) => <img key={i} src={src} alt={`${annonce.titre} ${i + 1}`} />)
           ) : (
-            <div className="card-media-empty" style={{ height: 260, borderRadius: 10, background: 'var(--accent-soft)' }}>
+            <div className="card-media-empty" style={{ height: 260, borderRadius: 10, background: 'var(--primary-soft)' }}>
               Pas de photo
             </div>
           )}
@@ -57,8 +70,20 @@ export default function AnnonceDetail() {
             <span className="ce-pill">✓ Conformité déclarée par le vendeur</span>
           )}
           <h1>{annonce.titre}</h1>
-          <p className="card-meta">{meta || '—'}</p>
+          {sub && <p className="card-sub">{sub}</p>}
           <p className="detail-price">{prix}</p>
+
+          {specs.length > 0 && (
+            <dl className="spec">
+              {specs.map(([k, v]) => (
+                <div className="spec-row" key={k}>
+                  <dt>{k}</dt>
+                  <dd>{v}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
+
           <p className="detail-desc">{annonce.description || 'Aucune description fournie.'}</p>
           <ContactForm annonceId={annonce.id} />
         </div>
