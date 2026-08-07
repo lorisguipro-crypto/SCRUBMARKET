@@ -327,3 +327,17 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--p
 .cats-arrow.left { left: -8px; }
 .cats-arrow.right { right: -8px; }
 @media (min-width: 761px) { .cats-arrow { display: flex; } }
+
+/* Indice de swipe sur mobile : le carrousel esquisse un léger va-et-vient au chargement */
+@media (max-width: 760px) {
+  .cats { animation: swipe-hint 2.4s ease-in-out 0.6s 2; }
+}
+@keyframes swipe-hint {
+  0%   { transform: translateX(0); }
+  18%  { transform: translateX(-26px); }
+  36%  { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cats { animation: none; }
+}
