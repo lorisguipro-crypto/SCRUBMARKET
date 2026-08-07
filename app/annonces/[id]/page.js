@@ -72,6 +72,11 @@ export default function AnnonceDetail() {
           <h1>{annonce.titre}</h1>
           {sub && <p className="card-sub">{sub}</p>}
           <p className="detail-price">{prix}</p>
+          {annonce.prix != null && (
+            <Link href={`/acheter/${annonce.id}`} className="btn btn-primary" style={{ marginBottom: 16 }}>
+              Acheter — {prix}
+            </Link>
+          )}
 
           {specs.length > 0 && (
             <dl className="spec">

@@ -283,3 +283,15 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--p
   .facture { border: none; padding: 0; max-width: 100%; margin: 0; }
   .container { padding: 0; max-width: 100%; }
 }
+
+/* Maquette paiement (simulation) */
+.sim-banner { background: #fff3ef; border: 1px solid #f0c9bd; color: #c25a38; font-size: 13px; font-weight: 600; padding: 10px 14px; border-radius: 10px; margin: 20px 0 4px; text-align: center; }
+.sim-note { background: var(--primary-soft); color: var(--primary-dark); font-size: 13px; padding: 8px 12px; border-radius: 8px; margin: 0 0 16px; }
+.steps-bar { display: flex; gap: 10px; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 6px 0 18px; flex-wrap: wrap; }
+.steps-bar .on { color: var(--primary); font-weight: 600; }
+.pay-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
+.pay-row { display: flex; justify-content: space-between; gap: 16px; padding: 8px 0; font-size: 15px; }
+.pay-row.muted { color: var(--muted); font-size: 14px; }
+.pay-total { display: flex; justify-content: space-between; border-top: 2px solid var(--ink); margin-top: 8px; padding-top: 12px; font-size: 18px; margin-bottom: 18px; }
+.pay-done { text-align: center; }
+.pay-check { width: 56px; height: 56px; border-radius: 50%; background: var(--primary); color: #fff; font-size: 28px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
