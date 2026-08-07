@@ -118,8 +118,7 @@ export default function AcheterPage() {
             <input type="radio" checked={ship.type === 'palette'} readOnly />
             <div><strong>Matériel lourd / palette</strong><div className="fac-small">Transport spécialisé — encombrant ou fragile</div></div>
           </div>
-          <div className="field"><label>Adresse d'enlèvement (vendeur)</label>
-            <input placeholder={annonce.ville || 'Ville du vendeur'} value={ship.enlevement} onChange={(e) => setShip((v) => ({ ...v, enlevement: e.target.value }))} /></div>
+          <p className="fac-small" style={{ margin: '2px 0 14px' }}>📍 L'adresse d'enlèvement du vendeur est ajoutée automatiquement sur l'étiquette — vous n'avez pas à la saisir.</p>
           <div className="field"><label>Adresse de livraison (vous)</label>
             <input placeholder="Votre adresse" value={ship.livraison} onChange={(e) => setShip((v) => ({ ...v, livraison: e.target.value }))} /></div>
           {ship.type === 'standard' && (
