@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 
@@ -8,6 +8,8 @@ export default function Home() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('idle');
   const [categories, setCategories] = useState([]);
+  const catsRef = useRef(null);
+  const scrollCats = (dir) => catsRef.current?.scrollBy({ left: dir * 260, behavior: 'smooth' });
 
   useEffect(() => {
     supabase
@@ -50,13 +52,17 @@ export default function Home() {
 
       <section className="home-section">
         <h2 className="section-title">Explorer par spécialité</h2>
-        <div className="cats">
-          {categories.map((c) => (
-            <Link key={c.id} href={`/annonces?cat=${c.id}`} className="cat-card">
-              <span className="cat-name">{c.nom}</span>
-              <span className="cat-link">Voir les annonces →</span>
-            </Link>
-          ))}
+        <div className="cats-wrap">
+          <button type="button" className="cats-arrow left" onClick={() => scrollCats(-1)} aria-label="Précédent">‹</button>
+          <div className="cats" ref={catsRef}>
+            {categories.map((c) => (
+              <Link key={c.id} href={`/annonces?cat=${c.id}`} className="cat-card">
+                <span className="cat-name">{c.nom}</span>
+                <span className="cat-link">Voir les annonces →</span>
+              </Link>
+            ))}
+          </div>
+          <button type="button" className="cats-arrow right" onClick={() => scrollCats(1)} aria-label="Suivant">›</button>
         </div>
       </section>
 
