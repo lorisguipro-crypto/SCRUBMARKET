@@ -313,3 +313,7 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--p
 .label-track { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
 .label-addr { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 13px; }
 .barcode { height: 56px; background: repeating-linear-gradient(90deg, #2c3432 0 2px, #fff 2px 4px, #2c3432 4px 5px, #fff 5px 9px); border-radius: 4px; margin: 16px 0 6px; }
+
+/* Transport défini par le vendeur (lecture seule côté acheteur) */
+.ship-info { display: flex; gap: 28px; flex-wrap: wrap; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; }
+.ship-info .fac-label { display: block; margin-bottom: 2px; }

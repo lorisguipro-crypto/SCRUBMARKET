@@ -17,6 +17,7 @@ export default function DeposerPage() {
   const [form, setForm] = useState({
     titre: '', categorie_id: '', type_materiel: '', marque: '', marque_autre: '',
     etat: '', annee_fabrication: '', date_mise_en_service: '', fiche_tracabilite: 'Non',
+    poids_kg: '', type_transport: 'standard',
     serial_number: '', adresse_enlevement: '', prix: '', ville: '', description: '',
     vendeur_email: '', vendeur_telephone: '', declarations_ok: false,
   });
@@ -51,6 +52,8 @@ export default function DeposerPage() {
         annee_fabrication: data.annee_fabrication != null ? String(data.annee_fabrication) : '',
         date_mise_en_service: data.date_mise_en_service || '',
         fiche_tracabilite: data.fiche_tracabilite ? 'Oui' : 'Non',
+        poids_kg: data.poids_kg != null ? String(data.poids_kg) : '',
+        type_transport: data.type_transport || 'standard',
         serial_number: prive?.serial_number || '',
         adresse_enlevement: prive?.adresse_enlevement || '',
         prix: data.prix != null ? String(data.prix) : '',
@@ -102,6 +105,8 @@ export default function DeposerPage() {
       annee_fabrication: form.annee_fabrication ? Number(form.annee_fabrication) : null,
       date_mise_en_service: form.date_mise_en_service || null,
       fiche_tracabilite: form.fiche_tracabilite === 'Oui',
+      poids_kg: form.poids_kg ? Number(form.poids_kg) : null,
+      type_transport: form.type_transport || null,
       prix: form.prix ? Number(form.prix) : null,
       ville: form.ville || null,
       description: form.description || null,
@@ -227,6 +232,20 @@ export default function DeposerPage() {
           <div className="field">
             <label>Prix (€)</label>
             <input type="number" value={form.prix} onChange={(e) => update('prix', e.target.value)} placeholder="Laisser vide pour « à discuter »" />
+          </div>
+        </div>
+
+        <div className="form-row">
+          <div className="field">
+            <label>Poids estimé (kg)</label>
+            <input type="number" value={form.poids_kg} onChange={(e) => update('poids_kg', e.target.value)} placeholder="Ex. 25" />
+          </div>
+          <div className="field">
+            <label>Type de transport</label>
+            <select value={form.type_transport} onChange={(e) => update('type_transport', e.target.value)}>
+              <option value="standard">Colis standard (transporteur classique)</option>
+              <option value="palette">Matériel lourd / palette (transport spécialisé)</option>
+            </select>
           </div>
         </div>
 

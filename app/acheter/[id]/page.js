@@ -19,6 +19,7 @@ export default function AcheterPage() {
       const { data } = await supabase.from('annonces').select('*, categories(nom)').eq('id', id).single();
       setAnnonce(data);
       setLoading(false);
+      if (data) setShip((v) => ({ ...v, type: data.type_transport || 'standard', poids: data.poids_kg != null ? String(data.poids_kg) : '' }));
       // Adresse d'enlèvement : stockée en privé (lisible par le vendeur via RLS).
       // Se pré-remplit pour le vendeur ; en réel, révélée à l'acheteur après paiement.
       const { data: prive } = await supabase.from('annonce_prive').select('adresse_enlevement').eq('annonce_id', id).single();
@@ -110,21 +111,14 @@ export default function AcheterPage() {
       {step === 4 && (
         <div className="pay-card">
           <p className="sim-note">Vous organisez l'enlèvement (démonstration — aucun transporteur n'est réellement commandé).</p>
-          <div className={`ship-opt${ship.type === 'standard' ? ' sel' : ''}`} onClick={() => setShip((v) => ({ ...v, type: 'standard' }))}>
-            <input type="radio" checked={ship.type === 'standard'} readOnly />
-            <div><strong>Colis standard</strong><div className="fac-small">Transporteur classique — petit matériel</div></div>
+          <div className="ship-info">
+            <div><span className="fac-label">Type d'envoi</span><strong>{ship.type === 'palette' ? 'Matériel lourd / palette' : 'Colis standard'}</strong></div>
+            <div><span className="fac-label">Poids</span><strong>{ship.poids ? `${ship.poids} kg` : '—'}</strong></div>
           </div>
-          <div className={`ship-opt${ship.type === 'palette' ? ' sel' : ''}`} onClick={() => setShip((v) => ({ ...v, type: 'palette' }))}>
-            <input type="radio" checked={ship.type === 'palette'} readOnly />
-            <div><strong>Matériel lourd / palette</strong><div className="fac-small">Transport spécialisé — encombrant ou fragile</div></div>
-          </div>
+          <p className="fac-small" style={{ margin: '0 0 14px' }}>Envoi défini par le vendeur.</p>
           <p className="fac-small" style={{ margin: '2px 0 14px' }}>📍 L'adresse d'enlèvement du vendeur est ajoutée automatiquement sur l'étiquette — vous n'avez pas à la saisir.</p>
           <div className="field"><label>Adresse de livraison (vous)</label>
             <input placeholder="Votre adresse" value={ship.livraison} onChange={(e) => setShip((v) => ({ ...v, livraison: e.target.value }))} /></div>
-          {ship.type === 'standard' && (
-            <div className="field"><label>Poids estimé (kg)</label>
-              <input type="number" value={ship.poids} onChange={(e) => setShip((v) => ({ ...v, poids: e.target.value }))} placeholder="5" /></div>
-          )}
           <div className="pay-total"><span>Estimation transport</span><strong>{money(shipCost)}</strong></div>
           <button className="btn btn-primary" style={{ width: '100%' }} onClick={() => setStep(5)}>Générer l'étiquette</button>
           <button className="btn btn-ghost" style={{ width: '100%', marginTop: 8 }} onClick={() => setStep(3)}>Retour</button>
