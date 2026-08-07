@@ -10,6 +10,20 @@ export const metadata = {
   description:
     "La place de marché du matériel médical d'occasion réservée aux professionnels de santé vérifiés.",
   appleWebApp: { capable: true, title: 'ScrubMarket', statusBarStyle: 'default' },
+  metadataBase: new URL('https://www.scrub-market.com'),
+  openGraph: {
+    title: 'ScrubMarket — matériel médical d\'occasion entre professionnels',
+    description: "La place de marché du matériel médical d'occasion réservée aux professionnels de santé vérifiés.",
+    url: 'https://www.scrub-market.com',
+    siteName: 'ScrubMarket',
+    locale: 'fr_FR',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ScrubMarket — matériel médical d\'occasion entre professionnels',
+    description: "La place de marché du matériel médical d'occasion réservée aux professionnels de santé vérifiés.",
+  },
 };
 
 export const viewport = {
