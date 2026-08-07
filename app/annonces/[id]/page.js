@@ -71,8 +71,9 @@ export default function AnnonceDetail() {
           )}
           <h1>{annonce.titre}</h1>
           {sub && <p className="card-sub">{sub}</p>}
+          {annonce.statut === 'vendue' && <span className="sold-badge detail-sold">Vendu</span>}
           <p className="detail-price">{prix}</p>
-          {annonce.prix != null && (
+          {annonce.prix != null && annonce.statut !== 'vendue' && (
             <Link href={`/acheter/${annonce.id}`} className="btn btn-primary" style={{ marginBottom: 16 }}>
               Acheter — {prix}
             </Link>

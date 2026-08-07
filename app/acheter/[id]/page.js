@@ -26,6 +26,12 @@ export default function AcheterPage() {
       <Link href="/annonces" className="back">← Retour aux annonces</Link>
     </div>
   );
+  if (annonce.statut === 'vendue') return (
+    <div className="container" style={{ maxWidth: 560 }}>
+      <div className="sim-banner">Cette annonce est déjà vendue.</div>
+      <Link href={`/annonces/${id}`} className="back">← Retour à l'annonce</Link>
+    </div>
+  );
 
   const prix = Number(annonce.prix || 0);
   const commission = Math.round(prix * COMMISSION * 100) / 100;

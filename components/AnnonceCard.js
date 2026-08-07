@@ -12,8 +12,9 @@ export default function AnnonceCard({ annonce }) {
   const sub = [annonce.categories?.nom, annonce.ville].filter(Boolean).join(' · ');
 
   return (
-    <Link href={`/annonces/${annonce.id}`} className="card">
+    <Link href={`/annonces/${annonce.id}`} className={`card${annonce.statut === 'vendue' ? ' sold' : ''}`}>
       <div className="card-media">
+        {annonce.statut === 'vendue' && <span className="sold-badge">Vendu</span>}
         {photo ? (
           <img src={photo} alt={annonce.titre} />
         ) : (

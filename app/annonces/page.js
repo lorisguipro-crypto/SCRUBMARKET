@@ -26,7 +26,8 @@ export default function AnnoncesPage() {
         supabase
           .from('annonces')
           .select('*, categories(nom)')
-          .eq('statut', 'active')
+          .in('statut', ['active', 'vendue'])
+          .order('statut', { ascending: true })
           .order('created_at', { ascending: false }),
       ]);
       setCategories(cats.data || []);
