@@ -12,6 +12,7 @@ export default function AcheterPage() {
   const [annonce, setAnnonce] = useState(null);
   const [loading, setLoading] = useState(true);
   const [step, setStep] = useState(1);
+  const [ship, setShip] = useState({ type: 'standard', enlevement: '', livraison: '', poids: '' });
 
   useEffect(() => {
     supabase.from('annonces').select('*, categories(nom)').eq('id', id).single().then(({ data }) => {
@@ -37,6 +38,8 @@ export default function AcheterPage() {
   const commission = Math.round(prix * COMMISSION * 100) / 100;
   const vendeurRecoit = Math.round((prix - commission) * 100) / 100;
   const money = (n) => Number(n || 0).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+  const shipCost = ship.type === 'palette' ? 120 : 15; // estimation simulée
+  const tracking = 'SM-' + String(id || '').replace(/-/g, '').slice(0, 10).toUpperCase();
 
   return (
     <div className="container" style={{ maxWidth: 560 }}>
@@ -50,6 +53,7 @@ export default function AcheterPage() {
         <span className={step >= 1 ? 'on' : ''}>1. Récapitulatif</span>
         <span className={step >= 2 ? 'on' : ''}>2. Paiement</span>
         <span className={step >= 3 ? 'on' : ''}>3. Confirmation</span>
+        <span className={step >= 4 ? 'on' : ''}>4. Transport</span>
       </div>
 
       {step === 1 && (
@@ -92,7 +96,53 @@ export default function AcheterPage() {
             Dans la version réelle, une facture serait générée automatiquement à partir de ce paiement,
             et le vendeur serait payé via Stripe (le montant facturé = le montant payé).
           </p>
-          <Link href="/annonces" className="btn btn-primary" style={{ width: '100%' }}>Retour aux annonces</Link>
+          <button className="btn btn-primary" style={{ width: '100%' }} onClick={() => setStep(4)}>Organiser l'enlèvement</button>
+          <Link href="/annonces" className="back">Plus tard — retour aux annonces</Link>
+        </div>
+      )}
+
+      {step === 4 && (
+        <div className="pay-card">
+          <p className="sim-note">Vous organisez l'enlèvement (démonstration — aucun transporteur n'est réellement commandé).</p>
+          <div className={`ship-opt${ship.type === 'standard' ? ' sel' : ''}`} onClick={() => setShip((v) => ({ ...v, type: 'standard' }))}>
+            <input type="radio" checked={ship.type === 'standard'} readOnly />
+            <div><strong>Colis standard</strong><div className="fac-small">Transporteur classique — petit matériel</div></div>
+          </div>
+          <div className={`ship-opt${ship.type === 'palette' ? ' sel' : ''}`} onClick={() => setShip((v) => ({ ...v, type: 'palette' }))}>
+            <input type="radio" checked={ship.type === 'palette'} readOnly />
+            <div><strong>Matériel lourd / palette</strong><div className="fac-small">Transport spécialisé — encombrant ou fragile</div></div>
+          </div>
+          <div className="field"><label>Adresse d'enlèvement (vendeur)</label>
+            <input placeholder={annonce.ville || 'Ville du vendeur'} value={ship.enlevement} onChange={(e) => setShip((v) => ({ ...v, enlevement: e.target.value }))} /></div>
+          <div className="field"><label>Adresse de livraison (vous)</label>
+            <input placeholder="Votre adresse" value={ship.livraison} onChange={(e) => setShip((v) => ({ ...v, livraison: e.target.value }))} /></div>
+          {ship.type === 'standard' && (
+            <div className="field"><label>Poids estimé (kg)</label>
+              <input type="number" value={ship.poids} onChange={(e) => setShip((v) => ({ ...v, poids: e.target.value }))} placeholder="5" /></div>
+          )}
+          <div className="pay-total"><span>Estimation transport</span><strong>{money(shipCost)}</strong></div>
+          <button className="btn btn-primary" style={{ width: '100%' }} onClick={() => setStep(5)}>Générer l'étiquette</button>
+          <button className="btn btn-ghost" style={{ width: '100%', marginTop: 8 }} onClick={() => setStep(3)}>Retour</button>
+        </div>
+      )}
+
+      {step === 5 && (
+        <div className="pay-card">
+          <p className="sim-note">Étiquette de démonstration — non valable pour un envoi réel.</p>
+          <div className="label-card">
+            <div className="label-head">
+              <span className="label-carrier">{ship.type === 'palette' ? 'Transport palette' : 'Chrono Express'}</span>
+              <span className="label-track">Suivi : {tracking}</span>
+            </div>
+            <div className="label-addr">
+              <div><div className="fac-label">Expéditeur</div>{ship.enlevement || annonce.ville || 'Vendeur'}</div>
+              <div><div className="fac-label">Destinataire</div>{ship.livraison || 'Acheteur'}</div>
+            </div>
+            <div className="barcode" />
+            <div className="label-track" style={{ textAlign: 'center' }}>{tracking}</div>
+          </div>
+          <button className="btn btn-primary" style={{ width: '100%', marginTop: 16 }} onClick={() => window.print()}>Télécharger l'étiquette (PDF)</button>
+          <Link href="/annonces" className="back">Terminer — retour aux annonces</Link>
         </div>
       )}
     </div>

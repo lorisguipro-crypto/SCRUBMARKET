@@ -302,3 +302,14 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--p
 .card-media { position: relative; }
 .sold-badge { position: absolute; top: 10px; left: 10px; z-index: 2; background: var(--accent); color: #fff; font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
 .detail-sold { position: static; display: inline-block; margin-bottom: 10px; }
+
+/* Maquette transport / étiquette */
+.ship-opt { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; cursor: pointer; }
+.ship-opt.sel { border-color: var(--primary); background: var(--primary-soft); }
+.ship-opt input { width: auto; height: auto; margin-top: 3px; }
+.label-card { border: 1px dashed var(--muted); border-radius: 12px; padding: 20px; background: #fff; color: var(--ink); }
+.label-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 10px; margin-bottom: 12px; gap: 10px; flex-wrap: wrap; }
+.label-carrier { font-family: var(--font-display); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.label-track { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+.label-addr { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 13px; }
+.barcode { height: 56px; background: repeating-linear-gradient(90deg, #2c3432 0 2px, #fff 2px 4px, #2c3432 4px 5px, #fff 5px 9px); border-radius: 4px; margin: 16px 0 6px; }
