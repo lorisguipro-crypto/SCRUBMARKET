@@ -86,8 +86,11 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 500; letter-spacing:
 .home-section { padding: 48px 0 8px; }
 .section-title { font-size: 26px; margin: 0 0 22px; font-weight: 500; }
 
-.cats { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
-.cat-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 10px; transition: border-color .15s ease, transform .05s ease; }
+.cats { display: flex; gap: 14px; overflow-x: auto; padding: 4px 2px 14px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+.cats::-webkit-scrollbar { height: 8px; }
+.cats::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
+.cats::-webkit-scrollbar-track { background: transparent; }
+.cat-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; flex: 0 0 200px; min-height: 104px; scroll-snap-align: start; transition: border-color .15s ease, transform .05s ease; }
 .cat-card:hover { border-color: var(--primary); transform: translateY(-2px); }
 .cat-name { font-family: var(--font-body); font-weight: 600; font-size: 18px; }
 .cat-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--primary); font-weight: 500; }
@@ -175,7 +178,6 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--p
   .showcase { grid-template-columns: 1fr; }
   .showcase-text h2 { font-size: 23px; }
   .detail { grid-template-columns: 1fr; }
-  .cats { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
   .cat-card { padding: 16px; }
   .cat-name { font-size: 16px; }
   .signup { padding: 30px 22px; }
@@ -191,7 +193,7 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--p
   .hero-actions { flex-direction: column; align-items: stretch; }
   .hero-actions .btn { width: 100%; }
   .section-title { font-size: 20px; }
-  .cats { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cats { gap: 10px; }
   .cat-card { padding: 14px; }
   .cat-name { font-size: 15px; }
   .signup-form { flex-direction: column; }
