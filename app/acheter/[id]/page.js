@@ -15,9 +15,15 @@ export default function AcheterPage() {
   const [ship, setShip] = useState({ type: 'standard', enlevement: '', livraison: '', poids: '' });
 
   useEffect(() => {
-    supabase.from('annonces').select('*, categories(nom)').eq('id', id).single().then(({ data }) => {
-      setAnnonce(data); setLoading(false);
-    });
+    (async () => {
+      const { data } = await supabase.from('annonces').select('*, categories(nom)').eq('id', id).single();
+      setAnnonce(data);
+      setLoading(false);
+      // Adresse d'enlèvement : stockée en privé (lisible par le vendeur via RLS).
+      // Se pré-remplit pour le vendeur ; en réel, révélée à l'acheteur après paiement.
+      const { data: prive } = await supabase.from('annonce_prive').select('adresse_enlevement').eq('annonce_id', id).single();
+      if (prive?.adresse_enlevement) setShip((v) => ({ ...v, enlevement: prive.adresse_enlevement }));
+    })();
   }, [id]);
 
   if (loading) return <div className="container loading">Chargement…</div>;
