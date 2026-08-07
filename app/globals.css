@@ -225,3 +225,20 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--p
 .progate-card h2 { font-size: 24px; margin: 0 0 10px; font-weight: 500; }
 .progate-card p { color: var(--muted); font-size: 15px; margin: 0 0 22px; }
 .progate-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* Comptes vendeurs — tableau de bord "Mes annonces" */
+.btn-sm { height: 36px; padding: 0 13px; font-size: 13px; }
+.account-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.section-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 6px 0 20px; flex-wrap: wrap; }
+.myads { display: flex; flex-direction: column; gap: 12px; padding-bottom: 48px; }
+.myad { display: flex; justify-content: space-between; align-items: center; gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; flex-wrap: wrap; }
+.myad-title { font-weight: 600; font-size: 16px; color: var(--ink); }
+.myad-title:hover { color: var(--primary); }
+.myad-meta { display: flex; gap: 10px; align-items: center; margin-top: 5px; font-family: var(--font-mono); font-size: 12px; letter-spacing: .02em; text-transform: uppercase; color: var(--muted); }
+.myad-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.tag { padding: 3px 9px; border-radius: 999px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+.tag-active { background: var(--primary-soft); color: var(--primary-dark); }
+.tag-vendue { background: #f3e3dd; color: var(--accent); }
+.tag-masquee { background: var(--line); color: var(--muted); }
+.btn-ghost.danger { color: var(--accent); }
+.btn-ghost.danger:hover { border-color: var(--accent); }

@@ -2,35 +2,55 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
+import { useUser } from '@/lib/useUser';
 
 export default function DeposerPage() {
   const router = useRouter();
+  const { user, loading } = useUser();
   const [categories, setCategories] = useState([]);
   const [status, setStatus] = useState('idle');
+  const [editId, setEditId] = useState(null);
+  const [existingPhotos, setExistingPhotos] = useState([]);
   const [form, setForm] = useState({
-    titre: '',
-    categorie_id: '',
-    prix: '',
-    ville: '',
-    description: '',
-    vendeur_email: '',
-    vendeur_telephone: '',
-    declarations_ok: false,
+    titre: '', categorie_id: '', prix: '', ville: '', description: '',
+    vendeur_email: '', vendeur_telephone: '', declarations_ok: false,
   });
   const [files, setFiles] = useState([]);
 
   useEffect(() => {
-    supabase
-      .from('categories')
-      .select('*')
-      .order('nom')
-      .then(({ data }) => setCategories(data || []));
+    supabase.from('categories').select('*').order('nom').then(({ data }) => setCategories(data || []));
   }, []);
 
-  function update(key, value) {
-    setForm((f) => ({ ...f, [key]: value }));
-  }
+  // pré-remplir l'email vendeur avec celui du compte
+  useEffect(() => {
+    if (user?.email) setForm((f) => (f.vendeur_email ? f : { ...f, vendeur_email: user.email }));
+  }, [user]);
+
+  // mode édition : /deposer?id=...
+  useEffect(() => {
+    if (!user || typeof window === 'undefined') return;
+    const id = new URLSearchParams(window.location.search).get('id');
+    if (!id) return;
+    setEditId(id);
+    supabase.from('annonces').select('*').eq('id', id).single().then(({ data }) => {
+      if (!data) return;
+      setForm({
+        titre: data.titre || '',
+        categorie_id: data.categorie_id ? String(data.categorie_id) : '',
+        prix: data.prix != null ? String(data.prix) : '',
+        ville: data.ville || '',
+        description: data.description || '',
+        vendeur_email: data.vendeur_email || '',
+        vendeur_telephone: data.vendeur_telephone || '',
+        declarations_ok: !!data.declarations_ok,
+      });
+      setExistingPhotos(data.photos || []);
+    });
+  }, [user]);
+
+  function update(key, value) { setForm((f) => ({ ...f, [key]: value })); }
 
   async function uploadPhotos() {
     const urls = [];
@@ -47,47 +67,62 @@ export default function DeposerPage() {
 
   async function submit(e) {
     e.preventDefault();
-    if (!form.declarations_ok) return;
+    if (!form.declarations_ok || !user) return;
     setStatus('loading');
 
-    let photos = [];
+    let newPhotos = [];
     if (files.length) {
-      try {
-        photos = await uploadPhotos();
-      } catch (_) {
-        // si le bucket n'est pas prêt, on publie sans photo plutôt que d'échouer
-        photos = [];
-      }
+      try { newPhotos = await uploadPhotos(); } catch (_) { newPhotos = []; }
+    }
+    const photos = [...existingPhotos, ...newPhotos];
+
+    const payload = {
+      titre: form.titre,
+      categorie_id: form.categorie_id ? Number(form.categorie_id) : null,
+      prix: form.prix ? Number(form.prix) : null,
+      ville: form.ville || null,
+      description: form.description || null,
+      vendeur_email: form.vendeur_email,
+      vendeur_telephone: form.vendeur_telephone || null,
+      declarations_ok: form.declarations_ok,
+      photos,
+    };
+
+    let res;
+    if (editId) {
+      res = await supabase.from('annonces').update(payload).eq('id', editId).select().single();
+    } else {
+      res = await supabase.from('annonces').insert({ ...payload, user_id: user.id, statut: 'active' }).select().single();
     }
 
-    const { data, error } = await supabase
-      .from('annonces')
-      .insert({
-        titre: form.titre,
-        categorie_id: form.categorie_id ? Number(form.categorie_id) : null,
-        prix: form.prix ? Number(form.prix) : null,
-        ville: form.ville || null,
-        description: form.description || null,
-        vendeur_email: form.vendeur_email,
-        vendeur_telephone: form.vendeur_telephone || null,
-        declarations_ok: form.declarations_ok,
-        photos,
-        statut: 'active',
-      })
-      .select()
-      .single();
-
-    if (error) {
-      setStatus('error');
-      return;
-    }
-    router.push(`/annonces/${data.id}`);
+    if (res.error) { setStatus('error'); return; }
+    router.push(`/annonces/${res.data.id}`);
   }
 
+  if (loading) return <div className="container loading">Chargement…</div>;
+
+  // Non connecté : porte d'entrée vers la connexion
+  if (!user) {
+    return (
+      <div className="container" style={{ maxWidth: 460 }}>
+        <div className="page-head">
+          <h1>Déposer une annonce</h1>
+          <p className="hint">
+            Le dépôt est réservé aux professionnels connectés. La connexion se fait par un lien
+            envoyé à votre email — sans mot de passe, en quelques secondes.
+          </p>
+        </div>
+        <Link href="/compte" className="btn btn-primary">Se connecter pour déposer</Link>
+      </div>
+    );
+  }
+
+  const editing = Boolean(editId);
+
   return (
-    <div style={{ maxWidth: 640, margin: '0 auto' }}>
+    <div className="container" style={{ maxWidth: 680 }}>
       <div className="page-head">
-        <h1>Déposer une annonce</h1>
+        <h1>{editing ? 'Modifier l’annonce' : 'Déposer une annonce'}</h1>
         <p className="hint">
           Réservé au matériel réutilisable marqué CE. Sont exclus : usage unique,
           stérile, implantable, et tout dispositif périmé ou sous rappel.
@@ -127,13 +162,17 @@ export default function DeposerPage() {
 
         <div className="field">
           <label>Photos</label>
+          {editing && existingPhotos.length > 0 && (
+            <p className="hint">{existingPhotos.length} photo(s) déjà en ligne. En ajouter de nouvelles les complétera.</p>
+          )}
           <input type="file" accept="image/*" multiple onChange={(e) => setFiles(Array.from(e.target.files))} style={{ height: 'auto', padding: 10 }} />
           <p className="hint">Facultatif, mais les annonces avec photos reçoivent bien plus de contacts.</p>
         </div>
 
         <div className="field">
-          <label>Votre email professionnel *</label>
+          <label>Email de contact affiché *</label>
           <input type="email" required value={form.vendeur_email} onChange={(e) => update('vendeur_email', e.target.value)} />
+          <p className="hint">Pré-rempli avec l&apos;email de votre compte. Modifiable si vous préférez un autre contact.</p>
         </div>
 
         <div className="field">
@@ -151,9 +190,9 @@ export default function DeposerPage() {
         </div>
 
         <button className="btn btn-primary" disabled={status === 'loading' || !form.declarations_ok}>
-          {status === 'loading' ? 'Publication…' : 'Publier l\u2019annonce'}
+          {status === 'loading' ? (editing ? 'Enregistrement…' : 'Publication…') : (editing ? 'Enregistrer les modifications' : 'Publier l’annonce')}
         </button>
-        {status === 'error' && <p className="error">Une erreur est survenue. Vérifiez votre configuration Supabase et réessayez.</p>}
+        {status === 'error' && <p className="error">Une erreur est survenue. Réessayez.</p>}
       </form>
     </div>
   );

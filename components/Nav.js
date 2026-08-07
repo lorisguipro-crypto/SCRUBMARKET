@@ -1,7 +1,8 @@
-import Link from 'next/link';
+'use client';
 
-// Monogramme "S" à deux crochets (identité ScrubMarket) — les crochets héritent
-// de la couleur du texte (ardoise), l'accent diagonal reste sarcelle.
+import Link from 'next/link';
+import { useUser } from '@/lib/useUser';
+
 function Mark() {
   return (
     <svg viewBox="21 20 58 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -13,6 +14,7 @@ function Mark() {
 }
 
 export default function Nav() {
+  const { user } = useUser();
   return (
     <header className="nav">
       <div className="container nav-inner">
@@ -23,6 +25,11 @@ export default function Nav() {
         <nav className="nav-links">
           <Link href="/annonces">Parcourir</Link>
           <Link href="/comment-ca-marche" className="comment-link">Comment ça marche</Link>
+          {user ? (
+            <Link href="/compte">Mon compte</Link>
+          ) : (
+            <Link href="/compte" className="comment-link">Se connecter</Link>
+          )}
           <Link href="/deposer" className="btn btn-primary">
             <span className="lbl-full">Déposer une annonce</span>
             <span className="lbl-short">+ Déposer</span>
