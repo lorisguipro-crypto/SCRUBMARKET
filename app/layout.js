@@ -10,7 +10,14 @@ export const metadata = {
   description:
     "La place de marché du matériel médical d'occasion réservée aux professionnels de santé vérifiés.",
   appleWebApp: { capable: true, title: 'ScrubMarket', statusBarStyle: 'default' },
-  icons: { apple: '/apple-icon.png' },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: '/apple-icon.png',
+  },
 };
 
 export const viewport = {
