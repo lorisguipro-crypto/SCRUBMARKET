@@ -13,7 +13,7 @@ export default function NouvelleFacture() {
   const [status, setStatus] = useState('idle');
   const [ready, setReady] = useState(false);
   const [form, setForm] = useState({
-    acheteur_nom: '', acheteur_adresse: '', acheteur_siret: '',
+    acheteur_nom: '', acheteur_email: '', acheteur_adresse: '', acheteur_siret: '',
     designation: '', quantite: '1', prix_unitaire: '',
     date_emission: new Date().toISOString().slice(0, 10), mention_tva: '',
   });
@@ -55,6 +55,7 @@ export default function NouvelleFacture() {
       vendeur_siret: profil?.siret || null,
       vendeur_mentions: profil?.mentions_complementaires || null,
       acheteur_nom: form.acheteur_nom || null,
+      acheteur_email: (form.acheteur_email || '').trim().toLowerCase() || null,
       acheteur_adresse: form.acheteur_adresse || null,
       acheteur_siret: form.acheteur_siret || null,
       designation: form.designation || null,
@@ -64,6 +65,16 @@ export default function NouvelleFacture() {
       mention_tva: form.mention_tva || null,
     }).select().single();
     if (error) { setStatus('error'); return; }
+
+    // Prévenir l'acheteur qu'une facture l'attend dans son espace (sans bloquer)
+    if (form.acheteur_email) {
+      fetch('/api/notify-facture', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: form.acheteur_email, numero, vendeur: profil?.raison_sociale || 'un vendeur' }),
+      }).catch(() => {});
+    }
+
     router.push(`/facture/${data.id}`);
   }
 
@@ -104,6 +115,9 @@ export default function NouvelleFacture() {
         <h2 style={{ fontSize: 18, margin: '10px 0 12px' }}>Acheteur</h2>
         <div className="field"><label>Nom / Raison sociale *</label>
           <input required value={form.acheteur_nom} onChange={(e) => up('acheteur_nom', e.target.value)} /></div>
+        <div className="field"><label>Email de l'acheteur *</label>
+          <input type="email" required value={form.acheteur_email} onChange={(e) => up('acheteur_email', e.target.value)} placeholder="acheteur@cabinet.fr" />
+          <p className="hint">L'acheteur retrouvera cette facture dans son espace en se connectant avec cet email.</p></div>
         <div className="field"><label>Adresse</label>
           <textarea value={form.acheteur_adresse} onChange={(e) => up('acheteur_adresse', e.target.value)} style={{ minHeight: 60 }} /></div>
         <div className="field"><label>SIRET (facultatif)</label>

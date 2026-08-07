@@ -12,6 +12,7 @@ export default function ComptePage() {
   const [email, setEmail] = useState('');
   const [authStatus, setAuthStatus] = useState('idle');
   const [annonces, setAnnonces] = useState(null); // null = en cours de chargement
+  const [factures, setFactures] = useState(null); // factures reçues (en tant qu'acheteur)
 
   useEffect(() => {
     if (!user) { setAnnonces(null); return; }
@@ -21,6 +22,17 @@ export default function ComptePage() {
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
       .then(({ data }) => setAnnonces(data || []));
+  }, [user]);
+
+  // Factures reçues en tant qu'acheteur (lecture seule — la sécurité est côté base)
+  useEffect(() => {
+    if (!user) { setFactures(null); return; }
+    supabase
+      .from('factures')
+      .select('*')
+      .eq('acheteur_email', user.email)
+      .order('date_emission', { ascending: false })
+      .then(({ data }) => setFactures(data || []));
   }, [user]);
 
   async function login(e) {
@@ -125,6 +137,30 @@ export default function ComptePage() {
             </div>
           ))}
         </div>
+      )}
+
+      {factures && factures.length > 0 && (
+        <>
+          <div className="section-row" style={{ marginTop: 44 }}>
+            <h2 style={{ fontSize: 20, margin: 0 }}>Mes factures reçues</h2>
+          </div>
+          <div className="myads">
+            {factures.map((f) => (
+              <div className="myad" key={f.id}>
+                <div className="myad-main">
+                  <Link href={`/facture/${f.id}`} className="myad-title">Facture {f.numero}</Link>
+                  <div className="myad-meta">
+                    <span>{f.vendeur_raison_sociale || 'Vendeur'}</span>
+                    <span>{Number(f.total || 0).toLocaleString('fr-FR')} €</span>
+                  </div>
+                </div>
+                <div className="myad-actions">
+                  <Link href={`/facture/${f.id}`} className="btn btn-ghost btn-sm">Voir / PDF</Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
